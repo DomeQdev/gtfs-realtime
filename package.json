@@ -1,0 +1,10 @@
+{
+  "name": "slay-gtfs-realtime",
+  "version": "0.0.1",
+  "description": "slay this gtfs-realtime",
+  "main": "src/index.ts",
+  "types": "src/index.d.ts",
+  "dependencies": {
+    "@turf/turf": "^6.5.0"
+  }
+}
