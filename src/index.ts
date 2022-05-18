@@ -1,7 +1,39 @@
 import { nearestPointOnLine, point, lineString } from "@turf/turf";
-import { Options, Result, Stop } from "./typings";
+import { Position } from "@turf/helpers";
 
-export default ({
+interface Stop {
+    metersToStop: number,
+    location: Position,
+    departure: Date,
+    arrival: Date,
+    time: number,
+    meta: any
+}
+
+interface Options {
+    stops: {
+        location: Position,
+        arrival?: Date,
+        departure: Date,
+        distance?: number,
+        meta?: any
+    }[],
+    shapes: Position[],
+    location?: Position,
+    moveStopsToLine?: boolean,
+    predictLocation?: boolean
+}
+
+interface Result {
+    stops: Stop[],
+    shapes: Position[],
+    delay?: number,
+    lastStop?: Stop,
+    serving?: Stop,
+    nextStop?: Stop
+}
+
+export const TripInfo = ({
     stops,
     shapes,
     location,
