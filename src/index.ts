@@ -1,32 +1,31 @@
 import { nearestPointOnLine, point, lineString } from "@turf/turf";
-import { Position } from "@turf/helpers";
 
 interface Stop {
     metersToStop: number,
-    location: Position,
-    departure: Date,
-    arrival: Date,
+    location: [number,number],
+    departure: number,
+    arrival: number,
     time: number,
     meta: any
 }
 
 interface Options {
     stops: {
-        location: Position,
-        arrival?: Date,
-        departure: Date,
+        location: [number,number],
+        arrival?: number,
+        departure: number,
         distance?: number,
         meta?: any
     }[],
-    shapes: Position[],
-    location?: Position,
+    shapes: [number,number][],
+    location?: [number,number],
     moveStopsToLine?: boolean,
     predictLocation?: boolean
 }
 
 interface Result {
     stops: Stop[],
-    shapes: Position[],
+    shapes: [number,number][],
     delay?: number,
     lastStop?: Stop,
     serving?: Stop,
@@ -46,8 +45,8 @@ export const TripInfo = ({
     let vehicleDistance = location ? nearestPointOnLine(line, point(location), { units: 'meters' }).properties.location || 0 : 0;
 
     let stopList = stops.map(stop => {
-        let departure = new Date(stop.departure).getTime();
-        let arrival = new Date(stop.arrival || stop.departure)?.getTime();
+        let departure = stop.departure;
+        let arrival = stop.arrival || departure;
 
         let nearest = (() => {
             if (stop.distance) {
@@ -66,10 +65,10 @@ export const TripInfo = ({
 
         return {
             metersToStop: nearest.distance! - vehicleDistance,
-            location: nearest.location,
-            departure: new Date(departure),
-            arrival: new Date(arrival),
-            time: (arrival - new Date(stops[0].departure).getTime()) / 1000 / 60,
+            location: nearest.location as [number, number],
+            departure: departure,
+            arrival: arrival,
+            time: (arrival - stops[0].departure) / 1000 / 60,
             meta: stop.meta
         };
     });
@@ -79,7 +78,7 @@ export const TripInfo = ({
     let nextStop = stopList.find(stop => stop?.metersToStop > 50) || stopList[stopList.length - 1];
 
     let realTime = (nextStop?.time! - (serving?.time || lastStop?.time)) * percentTravelled(serving || lastStop, nextStop!);
-    let delay = Math.floor(realTime - minutesUntil(nextStop?.arrival.getTime()));
+    let delay = Math.floor(realTime - minutesUntil(nextStop?.arrival));
 
     return {
         stops: stopList,

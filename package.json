@@ -1,6 +1,6 @@
 {
   "name": "slay-gtfs-realtime",
-  "version": "1.0.0",
+  "version": "21.37.0",
   "description": "slay this gtfs-realtime",
   "repository": {
     "url": "https://github.com/DomeQdev/gtfs-realtime",

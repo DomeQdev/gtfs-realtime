@@ -3,9 +3,9 @@
 
 ## How to use
 ```js
-const tripInfo = require("slay-gtfs-realtime");
+const { TripInfo } = require("slay-gtfs-realtime");
 
-const { stops, shapes, delay?, predictedLocation?, lastStop?, serving?, nextStop? } = tripInfo({
+const { stops, shapes, delay?, predictedLocation?, lastStop?, serving?, nextStop? } = TripInfo({
     stops: [
         {
             location: [52.215481561, 21.2114879], // stop location
@@ -27,4 +27,4 @@ const { stops, shapes, delay?, predictedLocation?, lastStop?, serving?, nextStop
 });
 ```
 
-i'm too lazy to make result effects, just look at [typings](https://github.com/DomeQdev/gtfs-realtime/blob/main/src/typings.d.ts#L26-L33)
+i'm too lazy to make result effects, just look at [typings](https://github.com/DomeQdev/gtfs-realtime/blob/main/src/index.ts#L26-L33)
